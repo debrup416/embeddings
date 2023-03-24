@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <label for="question">Question:</label>
+        <input type="text" id="question" name="question"><br>
+
+        <button type="submit">Submit</button>
+    </form>
+    <span id="response"></span>
+
+    <script>
+        const form = document.querySelector('form');
+        const responseDiv = document.getElementById('response');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const question = document.getElementById('question').value;
+            fetch('http://127.0.0.1:8000/', {
+                method: 'POST',
+                body: JSON.stringify({ "question": question }),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(function (serverPromise) {
+                    serverPromise.json()
+                        .then(function (j) {
+                            console.log(j.answer);
+                            responseDiv.innerHTML = `Answer : ${j.answer}`;
+                        })
+                        .catch(function (e) {
+                            console.log(e);
+                            responseDiv.innerHTML = `Error: ${e}`;
+                        });
+                })
+                .catch(function (e) {
+                    console.log(e);
+                    responseDiv.innerHTML = `Error: ${e}`;
+                });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
