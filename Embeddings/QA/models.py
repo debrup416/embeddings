@@ -7,4 +7,4 @@ class Qa(models.Model):
     answer= models.TextField(default="")
     
     class Meta:
-        ordering = ['created']
+        ordering = ['-created']

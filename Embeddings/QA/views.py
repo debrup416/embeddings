@@ -9,7 +9,7 @@ from .QuestionAnswer import answer_question
 @api_view(['GET', 'POST'])
 def qa_list(request,format=None):
     if request.method == 'GET':
-        qa = Qa.objects.all()
+        qa = Qa.objects.all()[:2]
         serializer = QaSerializer(qa, many=True)
         return Response(serializer.data)
 
